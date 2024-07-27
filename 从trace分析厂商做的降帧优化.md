@@ -20,7 +20,7 @@
 我们都知道，为了让界面保持流畅，需要屏幕按照稳定帧率刷新内容，那么ios的这种ProMotion技术是如何在保障界面流畅的情况下又动态降低刷新率的呢？
 
 由于本人没有用`iphone`，想着国产厂商也有提到过他们的动态降帧，所以利用自己的机子(机型：vivo，系统版本：Origin OS 4)抓了在微博界面滑动的trace。
-![image.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/d1a1f6b1ff704b0bba1115e36848c230~tplv-73owjymdk6-watermark.image?policy=eyJ2bSI6MywidWlkIjoiMzg3ODczMjc1NTExNDgxNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1722662327&x-orig-sign=Rlmv46u5jwoZHrJFUZo51yEiZDo%3D)
+![image.png](https://github.com/razecao1994/blog/blob/main/1.png)
 从`trace`的`VSYNC-APP`泳道的`vsync`信号间距可以看到：
 ```
 在滑动初期，帧间距为11ms（90Hz）
@@ -32,13 +32,13 @@
 
 如果了解过`RecyclerView`，应该知道在`ACTION_UP`之后的动画是由OverScroller实现的。
 
-![image.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/5bbbfbf635154ad8bd1f6223364b9851~tplv-73owjymdk6-watermark.image?policy=eyJ2bSI6MywidWlkIjoiMzg3ODczMjc1NTExNDgxNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1722662327&x-orig-sign=B3I5xmksnXGpOXvlz4ZjCuVpiX0%3D)
+![image.png](https://github.com/razecao1994/blog/blob/main/2.png)
 
-![image.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/9201cc136ab54665a19c67753a1d0fa0~tplv-73owjymdk6-watermark.image?policy=eyJ2bSI6MywidWlkIjoiMzg3ODczMjc1NTExNDgxNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1722662327&x-orig-sign=bJBQ5LeLFQz7XdJWRDEY%2Fq39im0%3D)
+![image.png](https://github.com/razecao1994/blog/blob/main/3.png)
 
-![image.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/1972991e3d2345dda4bc04c5978963c7~tplv-73owjymdk6-watermark.image?policy=eyJ2bSI6MywidWlkIjoiMzg3ODczMjc1NTExNDgxNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1722662327&x-orig-sign=g3xfWWtyA5rRQHo%2FqysUypUOKq8%3D)
+![image.png](https://github.com/razecao1994/blog/blob/main/4.png)
 
-![image.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/ab21da422aec40d599188001c122fd6a~tplv-73owjymdk6-watermark.image?policy=eyJ2bSI6MywidWlkIjoiMzg3ODczMjc1NTExNDgxNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1722662327&x-orig-sign=f8ny0ZRkpF3jXgItX4BCgpHE4Yo%3D)
+![image.png](https://github.com/razecao1994/blog/blob/main/5.png)
 
 通过源码可以看到，OverScroller$SplineOverScroller#fling的逻辑中，通过源码，可以知道，每次刷新时的速度都在减少。
 
@@ -47,7 +47,7 @@
 # 原理印证
 没有验证猜想的推理是不完整的，在借到了机子（发现通过xcode装的虚拟机不能触发降帧，应该与硬件相关）的情况下，简单利用SwiftUI基于TableView写了个滚动页面，打印出来每一帧的时间，根据时间间隔来绘制一下ios上的动态降帧曲线。如下：
 
-![image.png](https://p0-xtjj-private.juejin.cn/tos-cn-i-73owjymdk6/f4c4dad7e6d44cad9d21b588fc5b7a33~tplv-73owjymdk6-watermark.image?policy=eyJ2bSI6MywidWlkIjoiMzg3ODczMjc1NTExNDgxNCJ9&rk3s=f64ab15b&x-orig-authkey=f32326d3454f2ac7e96d3d06cdbb035152127018&x-orig-expires=1722662327&x-orig-sign=NkavRIwphCECeJqLVCUsEXWR4e4%3D)
+![image.png](https://github.com/razecao1994/blog/blob/main/6.png)
 
 # 结论
 1. Android厂商在做通用的动态降帧方案，应该是一种根据速度变化而调节刷新率的降帧方案
