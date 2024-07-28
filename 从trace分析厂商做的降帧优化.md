@@ -20,7 +20,7 @@
 我们都知道，为了让界面保持流畅，需要屏幕按照稳定帧率刷新内容，那么ios的这种ProMotion技术是如何在保障界面流畅的情况下又动态降低刷新率的呢？
 
 由于本人没有用`iphone`，想着国产厂商也有提到过他们的动态降帧，所以利用自己的机子(机型：vivo，系统版本：Origin OS 4)抓了在微博界面滑动的trace。
-![image.png](https://github.com/razecao1994/blog/blob/main/1.png)
+![image.png](https://github.com/razecao1994/blog/blob/main/assets/1.png)
 从`trace`的`VSYNC-APP`泳道的`vsync`信号间距可以看到：
 ```
 在滑动初期，帧间距为11ms（90Hz）
@@ -32,13 +32,13 @@
 
 如果了解过`RecyclerView`，应该知道在`ACTION_UP`之后的动画是由OverScroller实现的。
 
-![image.png](https://github.com/razecao1994/blog/blob/main/2.png)
+![image.png](https://github.com/razecao1994/blog/blob/main/assets/2.png)
 
-![image.png](https://github.com/razecao1994/blog/blob/main/3.png)
+![image.png](https://github.com/razecao1994/blog/blob/main/assets/3.png)
 
-![image.png](https://github.com/razecao1994/blog/blob/main/4.png)
+![image.png](https://github.com/razecao1994/blog/blob/main/assets/4.png)
 
-![image.png](https://github.com/razecao1994/blog/blob/main/5.png)
+![image.png](https://github.com/razecao1994/blog/blob/main/assets/5.png)
 
 通过源码可以看到，OverScroller$SplineOverScroller#fling的逻辑中，通过源码，可以知道，每次刷新时的速度都在减少。
 
@@ -47,7 +47,7 @@
 # 原理印证
 没有验证猜想的推理是不完整的，在借到了机子（发现通过xcode装的虚拟机不能触发降帧，应该与硬件相关）的情况下，简单利用SwiftUI基于TableView写了个滚动页面，打印出来每一帧的时间，根据时间间隔来绘制一下ios上的动态降帧曲线。如下：
 
-![image.png](https://github.com/razecao1994/blog/blob/main/6.png)
+![image.png](https://github.com/razecao1994/blog/blob/main/assets/6.png)
 
 # 结论
 1. Android厂商在做通用的动态降帧方案，应该是一种根据速度变化而调节刷新率的降帧方案
