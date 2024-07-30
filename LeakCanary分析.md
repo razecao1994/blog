@@ -7,7 +7,9 @@
 - `ReachabilityWatcher`
 - `ActivityWatcher`
 - `ReferenceQueueRetainedObjectWatcher`
-- `TriggeredDeletableObjectReporter`
+- `LeakCanaryDelegate`
+- `InternalLeakCanary`
+- `HeapDumpTrigger`
 
 # 需要关注的方法&逻辑
 - `AppWatcherStartupInitializer#onCreate()`
@@ -87,8 +89,10 @@ override fun expectDeletionOnTriggerFor(
         }
 
       override fun markRetainedIfStronglyReachable() {
-        moveToRetained(key)
+        moveToRetain[从trace分析厂商做的降帧优化.md](%B4%D3trace%B7%D6%CE%F6%B3%A7%C9%CC%D7%F6%B5%C4%BD%B5%D6%A1%D3%C5%BB%AF.md)ed(key)
       }
     }
   }
 ```
+# 时序图
+![image.png](https://github.com/razecao1994/blog/blob/main/assets/leak_canary_sequence.png)
