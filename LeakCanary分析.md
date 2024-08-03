@@ -95,4 +95,4 @@ override fun expectDeletionOnTriggerFor(
   }
 ```
 # 时序图
-![[leak_canary_sequence.jpg]]
+![leakcanary主要流程](https://github.com/razecao1994/blog/blob/main/assets/leak_canary_sequence.jpg)
